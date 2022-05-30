@@ -15,10 +15,12 @@ OBJ = ./obj
 
 #compile all source file
 
-all: build
+all: buildServer buildClient
 
-build: $(OBJ)/server.o $(OBJ)/client.o $(OBJ)/user.o $(OBJ)/phonebook.o  
+buildServer: $(OBJ)/server.o $(OBJ)/user.o $(OBJ)/phonebook.o  
 	$(CC) $(OUTPUT) $(BIN)/server $(OBJ)/server.o $(OBJ)/user.o $(OBJ)/phonebook.o $(SRC)/serverMain.cpp
+
+buildClient: $(OBJ)/client.o
 	$(CC) $(OUTPUT) $(BIN)/client $(OBJ)/client.o $(SRC)/clientMain.cpp
 
 $(OBJ)/server.o: $(SRC)/server.cpp
