@@ -33,12 +33,12 @@ bool Phonebook::storeData(string filename){
 }
 //function to remove data from the phonebook
 string Phonebook::removeData(vector<string> afterRemoved,string filename){
-	ofstream outfile ;
+      ofstream outfile ;
       if(filename != ""){
       	outfile.open("/home/cguser11/phonebook_management/db/"+filename + ".txt");
       	if(outfile.is_open()){
-      		for(auto i : afterRemoved){
-      	      	outfile  << i <<  "\n";
+      		for(auto contact : afterRemoved){
+      	      		outfile  << contact <<  "\n";
       	      }
       	      return "yes" ;
       	}

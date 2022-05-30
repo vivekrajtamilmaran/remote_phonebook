@@ -29,7 +29,7 @@ int main () {
                 commands = "";
                 commands=client.getUserCommands(type) ;				//calling the function to get the usercommands
                 if( commands != ""){
-               	 client.sendData(commands);					//sending the user commands to the server
+               	   client.sendData(commands);					//sending the user commands to the server
                
                    recvdata = client.recvData();				//receiving the data from the server
                    client.displayRecvData(recvdata);				//displaying the received data from the server

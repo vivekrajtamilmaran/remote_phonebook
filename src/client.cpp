@@ -1,4 +1,6 @@
 //program to define the class client
+
+
 #include <iostream>
 #include <unistd.h>
 #include <sys/socket.h>
@@ -9,6 +11,8 @@
 #include <termios.h>
 #include <signal.h>
 #include "../include/client.h"
+
+
 #define ADDRSERV "127.0.0.1"
 #define MAX 1024
 #define PORT 8028
@@ -29,10 +33,14 @@ Client::Client(){
             exit(EXIT_FAILURE);
       }
 }
+
+
 //function to get socket id
 int Client::getSockfd(){
 	return sockfd ;
  }
+
+
 //finction to credentials from the User
 string Client::getCredentials(){
       string  uName ;
@@ -59,6 +67,7 @@ string Client::getCredentials(){
       return concat;
 }
 
+
 //function to connect to the server
 int Client::serverConnect( ){
 	connectfd=connect(sockfd,(struct sockaddr *)&servaddr,slen);								//connecting to the server
@@ -68,6 +77,8 @@ int Client::serverConnect( ){
             }
             return connectfd;
 }
+
+
 //function to senddata from the client
 int Client::sendData(string input){
 
@@ -79,6 +90,9 @@ int Client::sendData(string input){
 	return 0 ;
 
 }
+
+
+
 // function to receive the data from the server
 string Client::recvData(){
 	char output[1024] ;
@@ -89,6 +103,8 @@ string Client::recvData(){
       }
       return string(output);
 }
+
+
 
 //function to get the subcommands from the user
 string Client::getUserCommands(string type){
@@ -161,7 +177,7 @@ string Client::getUserCommands(string type){
                   getline(ss,input1,',');
                   getline(ss,input2,',');
 		  getline(ss,input3,',');
-                  if(command =="addgrp"){												//checks for the ADD command
+                  if(command =="addgrp"){											//checks for the ADD command
             	      if(input1!="" && input2==""){
                   	      return copysubcommand ;
                          }
@@ -179,7 +195,7 @@ string Client::getUserCommands(string type){
                                 continue;
                         }
                     }
-                    else if(command =="ADD"){												//checks for ADD command
+                    else if(command =="ADD"){											//checks for ADD command
                   	if(input1!="" && input2!="" && input3!=""){
                         	return copysubcommand;
                         }
@@ -240,11 +256,17 @@ string Client::getUserCommands(string type){
       return "" ;
 
 }
+
+
+
 //function to display data received from server
 int Client::displayRecvData(string recvData){
 	cout << recvData << endl ;
       	return 0;
  }
+
+
+
 //function to close connection from the server
 int Client::closeClientConnections(){
       close(sockfd);

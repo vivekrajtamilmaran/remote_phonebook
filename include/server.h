@@ -18,15 +18,20 @@ class Server{
         public:
         	Server();
                 
-		int loadDAta();				//load the data from the file
-		int createSocket();			//create the socket
-		int bindSocket();			//to bind the socket	
-			
-		int listenTo(); 			//to listen to the socket 
-		void acceptConnections();		//to accept connections
-            	string recvData();			//to receive data and commands from client
-            	string authenticateUser();		//to authenticate the user
+		int loadDAta();												//load the data from the file
 
+		int createSocket();											//create the socket
+		int bindSocket();											//to bind the socket	
+		int listenTo(); 											//to listen to the socket 
+		
+		void acceptConnections();										//to accept connections
+            	string recvData();											//to receive data and commands from client
+            	string authenticateUser();										//to authenticate the user
+		
+
+		string authenticatedUserFunctionalities(string recvdata,string filename,string type);			//to perform authenticated user functionalities
+		int anonymousFunctions(string recvdata,string filename);						//to perform anonymous user functionalities
+		int adminFunction(string recvdata , string filename);							//to perform admin user functionalities
 };
 
 

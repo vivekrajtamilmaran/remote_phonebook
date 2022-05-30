@@ -76,12 +76,12 @@ string User::removeContact(string input,string filename){
       infile.open("/home/cguser11/phonebook_management/db/"+filename + ".txt");
       if(infile.is_open()){
       	while(getline(infile,line)){
-            	string name ,phonenumber ;
+            	  string name ,phonenumber ;
                   stringstream ss(line);
                   getline(ss,name,',');
                   getline(ss,phonenumber,',');
                   if(name!="" && name!=input){											//checking the username to exclude the username and store in a vector
-            	      afterRemoved.push_back(name + ":" + phonenumber );
+            	      afterRemoved.push_back(name + "," + phonenumber );
                   }			
               }
          }
@@ -145,9 +145,9 @@ bool User::findUser(string username){
 //function to change the group
 string User::chgrp(string input){
 	for(auto grpName : group){
-      	if(grpName == input){
-            	return input ;
-            }
+      		if(grpName == input){
+        	    	return input ;
+        	}
        }
        return "no";
 
