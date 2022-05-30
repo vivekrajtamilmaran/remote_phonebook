@@ -20,6 +20,8 @@ class User{
                 vector<string> listData(string input,string filename);			//to list the data from the group
                 bool findUser(string username);						//to find the user 
                 string chgrp(string input);						//to change the group
+		int addGrp(string filename);						//to add a group
+		int removeGrp(string filename);						//to delete a group
 
 
 };

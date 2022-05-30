@@ -155,12 +155,13 @@ string Client::getUserCommands(string type){
                     }
 	      }
             if(type=="admin"){													//checks for the type admin
-      	      string command(""),input1(""),input2("");
+      	          string command(""),input1(""),input2("") ,input3("");
                   stringstream ss(subcommand);
                   getline(ss,command,' ');
-                  getline(ss,input1);
+                  getline(ss,input1,',');
                   getline(ss,input2,',');
-                  if(command =="ADD"){												//checks for the ADD command
+		  getline(ss,input3,',');
+                  if(command =="addgrp"){												//checks for the ADD command
             	      if(input1!="" && input2==""){
                   	      return copysubcommand ;
                          }
@@ -169,7 +170,7 @@ string Client::getUserCommands(string type){
                                continue;
                          }
                    }
-                   else if(command == "rm"){											//checks for the remove command
+                   else if(command == "rmgrp"){											//checks for the remove command
                    	if(input1!="" && input2 ==""){
                         	return copysubcommand ;
                         }
@@ -178,6 +179,16 @@ string Client::getUserCommands(string type){
                                 continue;
                         }
                     }
+                    else if(command =="ADD"){												//checks for ADD command
+                  	if(input1!="" && input2!="" && input3!=""){
+                        	return copysubcommand;
+                        }
+                        else{
+                        	cout << "Provide three inputs name,phonenumber,filename " << endl ;
+                                continue;
+                                                }
+                        }
+
                     else if(command =="Bye"||command=="bye"){									//checks for the bye command
                     	if(input1==""&&input2==""){
                         	return copysubcommand ;
@@ -229,7 +240,7 @@ string Client::getUserCommands(string type){
       return "" ;
 
 }
-//function to receive display from server
+//function to display data received from server
 int Client::displayRecvData(string recvData){
 	cout << recvData << endl ;
       	return 0;

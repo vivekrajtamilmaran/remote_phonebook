@@ -11,6 +11,7 @@
 #include <sys/ipc.h>
 #include <fstream>
 #include <sstream>
+#include <cstdio>
 #include "../include/user.h"
 using namespace std;
 //default constructor        
@@ -137,5 +138,20 @@ string User::chgrp(string input){
        return "no";
 
 }
-
+//function to add group to the directory
+int User::addGrp(string filename){
+	ofstream outfile ;
+	outfile.open("/home/cguser11/phonebook_management/db/"+filename+".txt");
+	if(outfile.is_open()){
+		return 1;
+	}
+	outfile.close();
+	return 0;
+}
+//function to remove group from the directory
+int User::removeGrp(string filename){
+	filename = "/home/cguser11/phonebook_management/db/" + filename +".txt";
+	remove(filename.c_str());
+	return 1 ;
+}
 

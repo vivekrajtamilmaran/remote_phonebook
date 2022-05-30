@@ -145,7 +145,7 @@ int Server::listenTo(){
                                                      		for(auto user :users){
                                                                         		if(user.findUser(type)){			//calling the find user function using vector of User object
                                                                                 		filename=user.chgrp(input1);		//calling the change group functionof user class
-                                                                               		 break;
+                                                                               		 	break;
                                                                         		}
                                                                 	}
                                                                 	if(filename =="no"){
@@ -208,8 +208,62 @@ int Server::listenTo(){
                                                                 char positive[]="Contact added" ;
                                                                 send(connectfd,positive,strlen(positive),0);
                                                         }
-
+                                                 
                                                 }
+						if(type1=="admin"){
+							string command ,input1 ,input2 ,input3;
+							stringstream ss(recvdata) ;
+							getline(ss,command ,' ');
+							string msg = "";
+							if(command == "addgrp"){
+								ss >> input1;
+								filename = input1 ;
+								User user ;
+								int msg = user.addGrp(filename);
+								if(msg){
+									char positive []= "Group added " ;
+									send(connectfd,positive,strlen(positive),0);
+								}
+								else{
+									char negative[]="Error while adding the group " ;
+									send(connectfd,negative,strlen(negative),0);
+								}
+							}
+							else if(command == "rmgrp"){
+								ss >> input1;
+								filename = input1 ;
+								User user ;
+								int msg = user.removeGrp(filename);
+								if(msg){
+									char positive []= "Group removed " ;
+									send(connectfd,positive,strlen(positive),0);
+								}
+								else{
+									char negative[]="Error while removing the group " ;
+									send(connectfd,negative,strlen(negative),0);
+								}
+							}
+							else if(command == "ADD"){
+								getline(ss,input1,',');
+								getline(ss,input2,',');
+								getline(ss,input3,',');
+								filename = input3 ;
+								User user ;
+								string pos = user.addData(input1,input2,filename);
+								if(pos=="yes"){
+									string positive = "";
+									positive="contact added to the group  " + filename + ".txt"  ;
+									send(connectfd,positive.c_str(),strlen(positive.c_str()),0);
+								}
+								else{
+									char negative[]="Error while ADDing data to the group " ;
+									send(connectfd,negative,strlen(negative),0);
+								}
+							}
+						}
+							
+
+
 
 
                                         }
