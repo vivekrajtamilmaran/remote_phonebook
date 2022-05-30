@@ -22,6 +22,7 @@ class User{
                 string chgrp(string input);						//to change the group
 		int addGrp(string filename);						//to add a group
 		int removeGrp(string filename);						//to delete a group
+                string adminAddData(string input1 ,string input2,string filename);	//to add data to the phonebook from admin
 
 
 };

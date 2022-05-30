@@ -52,6 +52,20 @@ string User::addData(string input1 ,string input2,string filename){
       }
 
 }
+//function to add data to the phonebook 
+string User::adminAddData(string input1 ,string input2,string filename){
+      ifstream infile;
+      infile.open("/home/cguser11/phonebook_management/db/" + filename + ".txt");
+      Phonebook phonebook(input1,input2);
+      if(infile.is_open()){
+      	infile.close();
+      	if(phonebook.storeData(filename)){
+      		return "yes";
+      	}
+      }
+      return "no";
+
+}
 
 //function to remove contact from the phonebook
 string User::removeContact(string input,string filename){

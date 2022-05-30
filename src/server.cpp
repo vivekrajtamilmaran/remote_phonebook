@@ -249,14 +249,14 @@ int Server::listenTo(){
 								getline(ss,input3,',');
 								filename = input3 ;
 								User user ;
-								string pos = user.addData(input1,input2,filename);
+								string pos = user.adminAddData(input1,input2,filename);
 								if(pos=="yes"){
 									string positive = "";
-									positive="contact added to the group  " + filename + ".txt"  ;
+									positive="contact added to the group  " + filename  ;
 									send(connectfd,positive.c_str(),strlen(positive.c_str()),0);
 								}
 								else{
-									char negative[]="Error while ADDing data to the group " ;
+									char negative[]="Group doesn't exist ,Add the group to add the data  " ;
 									send(connectfd,negative,strlen(negative),0);
 								}
 							}
