@@ -12,7 +12,7 @@
 #include <fstream>
 #include <sstream>
 #include <cstdio>
-#include "../include/user.h"
+#include <user.h>
 using namespace std;
 //default constructor        
 User::User(){};
@@ -32,7 +32,7 @@ User::User(string username ,string password ,vector<string>group){
 
 //function to authenticate user return bool
 
-bool  User::authenticate(User user){
+bool  User::ToAuthenticate(User user){
 	if(this->username == user.username && this->password == user.password ){
       	return true ;
       }
@@ -42,9 +42,9 @@ bool  User::authenticate(User user){
 }
 
 //function to add data to the phonebook 
-string User::addData(string input1 ,string input2,string filename){
+string User::ToAddData(string input1 ,string input2,string filename){
       Phonebook phonebook(input1,input2);
-      if(phonebook.storeData(filename)){
+      if(phonebook.ToStoreData(filename)){
       	return "yes";
       }
       else{
@@ -53,13 +53,13 @@ string User::addData(string input1 ,string input2,string filename){
 
 }
 //function to add data to the phonebook 
-string User::adminAddData(string input1 ,string input2,string filename){
+string User::ToAdminAddData(string input1 ,string input2,string filename){
       ifstream infile;
       infile.open("/home/cguser11/phonebook_management/db/" + filename + ".txt");
       Phonebook phonebook(input1,input2);
       if(infile.is_open()){
       	infile.close();
-      	if(phonebook.storeData(filename)){
+      	if(phonebook.ToStoreData(filename)){
       		return "yes";
       	}
       }
@@ -68,7 +68,7 @@ string User::adminAddData(string input1 ,string input2,string filename){
 }
 
 //function to remove contact from the phonebook
-string User::removeContact(string input,string filename){
+string User::ToRemoveContact(string input,string filename){
       Phonebook phonebook ;
       vector <string> afterRemoved ;
       string line = "" ;
@@ -86,11 +86,11 @@ string User::removeContact(string input,string filename){
               }
          }
          infile.close();
-         string yes =phonebook.removeData(afterRemoved,filename);								//calling the removedata function to remove the data
+         string yes =phonebook.ToRemoveData(afterRemoved,filename);								//calling the removedata function to remove the data
          return yes ;
 }
 //function to list the data with the substring and returns a vector oof string
-vector<string> User::listData(string input,string filename){
+vector<string> User::ToListData(string input,string filename){
       ifstream infile ;
       vector<string> listedContact;
       string line = "";
@@ -124,7 +124,7 @@ vector<string> User::listData(string input,string filename){
                         getline(ss,phonenumber,',');
                         if(name != "" && phonenumber != ""){
                         	if(name.substr(0,input.size()) == input){
-                              	listedContact.push_back("Name :" + name + "\tPhonenumber :" + phonenumber + "\n");
+                        	      	listedContact.push_back("Name :" + name + "\tPhonenumber :" + phonenumber + "\n");
                               }
                         }
                   }
@@ -135,7 +135,7 @@ vector<string> User::listData(string input,string filename){
 }
 
 //function to find user return bool
-bool User::findUser(string username){
+bool User::ToFindUser(string username){
 	return this->username == username ;
 }
 
@@ -143,7 +143,7 @@ bool User::findUser(string username){
 
 
 //function to change the group
-string User::chgrp(string input){
+string User::ToChgrp(string input){
 	for(auto grpName : group){
       		if(grpName == input){
         	    	return input ;
@@ -153,7 +153,7 @@ string User::chgrp(string input){
 
 }
 //function to add group to the directory
-int User::addGrp(string filename){
+int User::ToAddGrp(string filename){
 	ofstream outfile ;
 	outfile.open("/home/cguser11/phonebook_management/db/"+filename+".txt");
 	if(outfile.is_open()){
@@ -163,7 +163,7 @@ int User::addGrp(string filename){
 	return 0;
 }
 //function to remove group from the directory
-int User::removeGrp(string filename){
+int User::ToRemoveGrp(string filename){
 	filename = "/home/cguser11/phonebook_management/db/" + filename +".txt";
 	remove(filename.c_str());
 	return 1 ;

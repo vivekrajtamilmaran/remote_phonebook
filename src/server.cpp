@@ -1,38 +1,24 @@
 /*  program to define the class server   */
 
 
-#include <iostream>
-#include <unistd.h>
-#include <string>
-#include <string.h>
-#include <signal.h>
-#include <arpa/inet.h>
+#include <server.h>
 #include <vector>
-#include <algorithm>
-#include <sys/ipc.h>
-#include <fstream>
-#include <sstream>
-#include "../include/server.h"
-
-
-#define ADDRSERV "127.0.0.1"
-#define MAX 256
-#define PORT 8028
-
-using namespace std;
-
 
 Server::Server(){
 };
 
 
+
+
 //loading the file containing username,password and group informations to the vector
 
-int Server::loadDAta(){
+int Server::ToLoadData(){
             fstream inputfile;
             string line;
             inputfile.open("/home/cguser11/phonebook_management/db/authentication.txt");
-            if(inputfile.is_open()){                                                                                    //checking whether the file is opened
+         
+	    
+	    if(inputfile.is_open()){                                                                                    //checking whether the file is opened
                 while(getline(inputfile,line)){
                         stringstream ss(line);
                         string username;
@@ -41,9 +27,13 @@ int Server::loadDAta(){
                         vector<string> groups;
                         getline(ss,username,':');
                         getline(ss,password,':');
+
+
                         while(getline(ss,group,':')){
                                 groups.push_back(group);                                                                //pushing the group information into a vector
                         }
+
+
                         if(username!="" && password != "" ){
                                 users.push_back(User(username,password,groups));                                        //pushing the object into the user vector
                         }
@@ -59,9 +49,11 @@ int Server::loadDAta(){
 
 
 
+
+
 //function to create socket 
 
-int Server::createSocket(){
+int Server::ToCreateSocket(){
             slen=sizeof(sockaddr_in);
             memset(&servaddr,0,slen);
             memset(&cliaddr,0,slen);
@@ -74,7 +66,6 @@ int Server::createSocket(){
             sockfd=socket(AF_INET, SOCK_STREAM, 0);                                                                     //creating the socket
             if(sockfd < 0){
               perror("Socket creation has not been done");
-                //exit(EXIT_FAILURE);
             }
             return 0;
 }
@@ -82,12 +73,11 @@ int Server::createSocket(){
 
 
 //function to bind the socket
-int Server::bindSocket(){
+int Server::ToBindSocket(){
             int ret;
             ret=bind(sockfd, (struct sockaddr *)&servaddr, slen);                                                       //binding the socket
             if(ret < 0){
-                    fputs("Binding has not been done",stderr);
-            //    exit(EXIT_FAILURE);
+                    perror("Binding has not been done");
              }
              return 0;
 }
@@ -95,12 +85,11 @@ int Server::bindSocket(){
 
 
 //function to call listening to the port 8028
-int Server::listenTo(){
+int Server::ToListen(){
             int ret;
             ret=listen(sockfd, 5);                                                                                      //listening to the port 8028
             if(ret< 0){
-                    fputs("Socket is not Listening",stderr);
-              exit(EXIT_FAILURE);
+                    perror("Socket is not Listening");
             }
             return 0;
 }
@@ -108,20 +97,21 @@ int Server::listenTo(){
 
 
 //function to acceptconncetion and and concurrency by using child process
-void Server::acceptConnections(){
+void Server::ToAcceptConnections(){
 
 	while(1){
       	connectfd=accept(sockfd,(struct sockaddr*)&servaddr,(socklen_t *)&slen);
             if(connectfd < 0){
-            	fputs("Conncetion is not established",stderr);
-                  //      exit(EXIT_FAILURE);
+            	perror("Conncetion is not established");
             }
             pid = fork();                                                                                               //creating the child process
-            if (pid == 0){
+            
+	    if (pid == 0){
             	  string filename = "" ;
-                  string type =authenticateUser();                                                                	//calling the authenticate function to check the username is authentic user
+                  string type =ToAuthenticateUser();                                                                	//calling the authenticate function to check the username is authentic user
                   string type1 ;
-                  if(type != "admin" && type != ""){
+                  
+		  if(type != "admin" && type != ""){
                   	type1 = "authenticated user" ;
                   }
                   else if(type ==""){
@@ -134,15 +124,15 @@ void Server::acceptConnections(){
                   
 
 			while(1){
-                  		string recvdata = recvData();                                                   	//calling the function to receive data
+                  		string recvdata = ToRecvData();                                                   	//calling the function to receive data
                         	if(type1=="authenticated user"){							//checking the user is authenticated
-                        		filename=authenticatedUserFunctionalities(recvdata,filename,type);		//calling the funtion to perform authenticated user functionalities
+                        		filename=AuthenticatedUserFunctionalities(recvdata,filename,type);		//calling the funtion to perform authenticated user functionalities
                         	}
                         	if(type1=="anonymous user"){                                                            //checking whether the user id anonymous
-                        		filename=anonymousFunctions(recvdata,filename);					//calling the function to perform anonymous user functionalities
+                        		filename=AnonymousFunctions(recvdata,filename);					//calling the function to perform anonymous user functionalities
                         	}
                         	if(type1=="admin"){									//checking whether the user is admin
-					filename=adminFunction(recvdata,filename);					//calling the function to perform admin functionalities
+					filename=AdminFunction(recvdata,filename);					//calling the function to perform admin functionalities
                         	                        
                         	}
 	
@@ -157,7 +147,7 @@ void Server::acceptConnections(){
 
 
 //function to do authententicated user functionalities
-string Server::authenticatedUserFunctionalities(string recvdata,string filename ,string type){
+string Server::AuthenticatedUserFunctionalities(string recvdata,string filename ,string type){
       string command ,input1 ,input2;
       stringstream ss(recvdata);
       getline(ss,command,' ');
@@ -166,7 +156,7 @@ string Server::authenticatedUserFunctionalities(string recvdata,string filename 
 	   		getline(ss,input1,',');
             		getline(ss,input2,',');
             		User user;
-            		string msg = user.addData(input1,input2,filename);						//calling the adddata function of user class
+            		string msg = user.ToAddData(input1,input2,filename);						//calling the adddata function of user class
             		if(msg!= "no"){
             		      char positive[]="Contact added" ;
             		      send(connectfd,positive,strlen(positive),0);     						//sending the message to the client
@@ -180,8 +170,8 @@ string Server::authenticatedUserFunctionalities(string recvdata,string filename 
             	 else if(command == "chgrp"){                                                      			//checking if the command is chgrp
             	 	ss >> input1 ;
             	      for(auto user :users){
-            		      	if(user.findUser(type)){                        					//calling the find user function using vector of User object
-       			            	filename=user.chgrp(input1);            					//calling the change group functionof user class
+            		      	if(user.ToFindUser(type)){                        					//calling the find user function using vector of User object
+       			            	filename=user.ToChgrp(input1);            					//calling the change group functionof user class
          		                break;
             	            	}
             	       }
@@ -199,7 +189,7 @@ string Server::authenticatedUserFunctionalities(string recvdata,string filename 
 	           ss >> input1 ;
                    User user ;
                    vector<string> contacts;
-                   contacts = user.listData(input1,filename);								//calling the list data function to get the list into a vector
+                   contacts = user.ToListData(input1,filename);								//calling the list data function to get the list into a vector
                    string concatContact = "";
                    if(!contacts.empty()){
       	             for(auto contact : contacts ){
@@ -217,7 +207,7 @@ string Server::authenticatedUserFunctionalities(string recvdata,string filename 
 	          ss >> input1;
                   string msg = "" ;
                   User user;
-                  msg = user.removeContact(input1,filename);                              				//calling the user function to remove the contact
+                  msg = user.ToRemoveContact(input1,filename);                              				//calling the user function to remove the contact
                   if(msg=="yes"){
       	            char posi[] = "Contact removed " ;
             	      send(connectfd,posi,strlen(posi),0);
@@ -237,7 +227,7 @@ string Server::authenticatedUserFunctionalities(string recvdata,string filename 
 
 //function to implement admin functionalities
 
-int Server::anonymousFunctions(string recvdata ,string filename){
+int Server::AnonymousFunctions(string recvdata ,string filename){
       string command ,input1 ,input2;
       stringstream ss(recvdata);
       getline(ss,command,' ');
@@ -246,7 +236,7 @@ int Server::anonymousFunctions(string recvdata ,string filename){
          getline(ss,input1,',');
          getline(ss,input2,',');
          User user;
-         string msg=user.addData(input1,input2,filename);
+         string msg=user.ToAddData(input1,input2,filename);
          if(msg == "yes"){
       	   char positive[]="Contact added" ;
                send(connectfd,positive,strlen(positive),0);
@@ -264,7 +254,7 @@ int Server::anonymousFunctions(string recvdata ,string filename){
 
 //function to implement admin Function
 
-int Server::adminFunction(string recvdata,string filename){
+int Server::AdminFunction(string recvdata,string filename){
       string command ,input1 ,input2 ,input3;
       stringstream ss(recvdata) ;
       getline(ss,command ,' ');
@@ -273,7 +263,7 @@ int Server::adminFunction(string recvdata,string filename){
       	ss >> input1;
             filename = input1 ;
             User user ;
-            int msg = user.addGrp(filename);									//calling the user class function addGrp to add the group 
+            int msg = user.ToAddGrp(filename);									//calling the user class function addGrp to add the group 
             if(msg){
              	char positive []= "Group added " ;
                   send(connectfd,positive,strlen(positive),0);
@@ -287,8 +277,9 @@ int Server::adminFunction(string recvdata,string filename){
       	ss >> input1;
       	filename = input1 ;
       	User user ;
-      	int msg = user.removeGrp(filename);									//calling the function remove group to remove the group
-      	if(msg){
+      	int msg = user.ToRemoveGrp(filename);									//calling the function remove group to remove the group
+      	
+	if(msg){
       		char positive []= "Group removed " ;
       	      send(connectfd,positive,strlen(positive),0);
       	}
@@ -297,13 +288,15 @@ int Server::adminFunction(string recvdata,string filename){
       	      send(connectfd,negative,strlen(negative),0);
       	}
       }
+      
+
       else if(command == "ADD"){
       	getline(ss,input1,',');
             getline(ss,input2,',');
             getline(ss,input3,',');
             filename = input3 ;
             User user ;
-            string pos = user.adminAddData(input1,input2,filename);
+            string pos = user.ToAdminAddData(input1,input2,filename);
             if(pos=="yes"){
                   string positive = "";
                   positive="contact added to the group  " + filename  ;	
@@ -322,7 +315,7 @@ int Server::adminFunction(string recvdata,string filename){
 
 
 //function to receive data
-string Server::recvData(){
+string Server::ToRecvData(){
         char recvdata[1024] ;
         memset(recvdata,0,1024);
         recv(connectfd , recvdata,1024 , 0) ;
@@ -336,7 +329,7 @@ string Server::recvData(){
 
 
 //function to authenticate user
-string Server::authenticateUser(){
+string Server::ToAuthenticateUser(){
         char  receivedata[1024];
         memset(receivedata,0,1024);
         string username ,password ;
@@ -346,7 +339,7 @@ string Server::authenticateUser(){
         getline(ss ,username , ':');
         getline(ss , password, ':');
         for (auto i : users){
-                if(i.authenticate(User(username , password))){										//checks whether the user is present it returns a bool
+                if(i.ToAuthenticate(User(username , password))){										//checks whether the user is present it returns a bool
                         return username;
                 }
         }

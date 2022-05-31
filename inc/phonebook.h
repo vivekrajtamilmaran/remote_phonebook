@@ -2,12 +2,14 @@
 #include <iostream>
 using namespace std;
 class Phonebook{
-        string name , phonenumber ;
 
         public :
                 Phonebook();								//default constructor
                 Phonebook(string name , string phonenumber );				//parameterized constructor
-                bool storeData(string filename);					//to store the data
-                string removeData(vector<string> afterRemoved,string filename);		//to remove the data
+                bool ToStoreData(string filename);					//to store the data
+                string ToRemoveData(vector<string> afterRemoved,string filename);	//to remove the data
+        
+	private:
+		string name , phonenumber ;
 };
 

@@ -10,7 +10,7 @@
 #include<arpa/inet.h>
 #include <termios.h>
 #include <signal.h>
-#include "../include/client.h"
+#include <client.h>
 
 
 #define ADDRSERV "127.0.0.1"
@@ -36,13 +36,13 @@ Client::Client(){
 
 
 //function to get socket id
-int Client::getSockfd(){
+int Client::ToGetSockfd(){
 	return sockfd ;
  }
 
 
 //finction to credentials from the User
-string Client::getCredentials(){
+string Client::ToGetCredentials(){
       string  uName ;
       string password;
       cout << "Enter the Username :" ;
@@ -69,7 +69,7 @@ string Client::getCredentials(){
 
 
 //function to connect to the server
-int Client::serverConnect( ){
+int Client::ToServerConnect( ){
 	connectfd=connect(sockfd,(struct sockaddr *)&servaddr,slen);								//connecting to the server
       	if(connectfd < 0){
             	fputs("Socket can't be created ",stderr);
@@ -80,11 +80,11 @@ int Client::serverConnect( ){
 
 
 //function to senddata from the client
-int Client::sendData(string input){
+int Client::ToSendData(string input){
 
       send(sockfd,input.c_str(),strlen(input.c_str()),0);
       if(input=="bye"||input=="Bye"){												//checks for bye if bye close client conncetion
-      	closeClientConnections();
+      	ToCloseClientConnections();
       }
 
 	return 0 ;
@@ -94,12 +94,12 @@ int Client::sendData(string input){
 
 
 // function to receive the data from the server
-string Client::recvData(){
+string Client::ToRecvData(){
 	char output[1024] ;
       memset(output,0,1024);
       mlen = recv(sockfd,output,1024,0);
       if(mlen==0){
-      	closeClientConnections();
+      	ToCloseClientConnections();
       }
       return string(output);
 }
@@ -107,7 +107,7 @@ string Client::recvData(){
 
 
 //function to get the subcommands from the user
-string Client::getUserCommands(string type){
+string Client::ToGetUserCommands(string type){
 	while(1){
       	string subcommand("");
             cout << "Enter the subcommand :" ;
@@ -260,7 +260,7 @@ string Client::getUserCommands(string type){
 
 
 //function to display data received from server
-int Client::displayRecvData(string recvData){
+int Client::ToDisplayRecvData(string recvData){
 	cout << recvData << endl ;
       	return 0;
  }
@@ -268,7 +268,7 @@ int Client::displayRecvData(string recvData){
 
 
 //function to close connection from the server
-int Client::closeClientConnections(){
+int Client::ToCloseClientConnections(){
       close(sockfd);
       exit(0);
  }

@@ -7,17 +7,24 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include "../include/phonebook.h"
+#include <phonebook.h>
+
 using namespace std;
+
+
 //default constructor 
 Phonebook::Phonebook(){};
+
+
 //parameterised constructor
 Phonebook::Phonebook(string name , string phonenumber ){
       this->name = name;
       this->phonenumber = phonenumber ;
 };
+
+
 //function to store the data to the phonebook
-bool Phonebook::storeData(string filename){
+bool Phonebook::ToStoreData(string filename){
       ofstream outfile ;
       if(filename != ""){
             outfile.open("/home/cguser11/phonebook_management/db/"+filename + ".txt", ios_base::app);
@@ -31,8 +38,10 @@ bool Phonebook::storeData(string filename){
        }
 
 }
+
+
 //function to remove data from the phonebook
-string Phonebook::removeData(vector<string> afterRemoved,string filename){
+string Phonebook::ToRemoveData(vector<string> afterRemoved,string filename){
       ofstream outfile ;
       if(filename != ""){
       	outfile.open("/home/cguser11/phonebook_management/db/"+filename + ".txt");
