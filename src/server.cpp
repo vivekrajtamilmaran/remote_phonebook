@@ -338,8 +338,8 @@ string Server::ToAuthenticateUser(){
         stringstream ss(recvdata);
         getline(ss ,username , ':');
         getline(ss , password, ':');
-        for (auto i : users){
-                if(i.ToAuthenticate(User(username , password))){										//checks whether the user is present it returns a bool
+        for (auto user : users){
+                if(user.ToAuthenticate(User(username , password))){										//checks whether the user is present it returns a bool
                         return username;
                 }
         }
