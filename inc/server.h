@@ -32,9 +32,9 @@ class Server{
         
 
 	public:
-        	Server();
-                
-		int ToLoadData();	    										 //load the data from the file
+        	Server();												//default constructor
+                ~Server();												//default destructor
+		int ToLoadData();	    										//load the data from the file
 
 		int ToCreateSocket();											//create the socket
 		int ToBindSocket();											//to bind the socket	
@@ -55,6 +55,7 @@ class Server{
         	vector <User> users ;
         	int slen = 0 ,connectfd = 0, mlen = 0 ;
         	pid_t pid ;
+
 
 };
 

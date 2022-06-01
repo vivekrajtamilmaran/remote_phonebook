@@ -207,9 +207,10 @@ string Server::AuthenticatedUserFunctionalities(string recvdata,string filename 
                    	 send(connectfd,concatContact.c_str(),concatContact.size(),0);
 			 return filename;
                    }
-                   else{
-      	             char buffer[]="File is empty ";
+                   else if(contacts.size() == 1){
+      	             	 char buffer[]="File is empty ";
                          send(connectfd,buffer,strlen(buffer),0);
+		      	 return filename ;
                    }
             }
             else if(command == "rm"){                                   				                //checking if the command is remove
@@ -217,7 +218,7 @@ string Server::AuthenticatedUserFunctionalities(string recvdata,string filename 
                   string msg = "" ;
                   User user;
                   msg = user.ToRemoveContact(input1,filename);                              				//calling the user function to remove the contact
-                  if(msg=="yes"){
+                  if(msg!=filename){
       	            char posi[] = "Contact removed " ;
             	      send(connectfd,posi,strlen(posi),0);
 		      return filename ;
@@ -225,6 +226,7 @@ string Server::AuthenticatedUserFunctionalities(string recvdata,string filename 
                   else{
                   	char nega[]="Entered user is not present";
                         send(connectfd,nega,strlen(nega),0);
+		      	return filename ;
                   }
            }
 		return "";
@@ -354,3 +356,6 @@ string Server::ToAuthenticateUser(){
         return "";
 }
 
+
+//destructor 
+Server::~Server(){};

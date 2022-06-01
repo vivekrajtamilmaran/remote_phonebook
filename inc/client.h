@@ -8,6 +8,7 @@ class Client{
 
         public:
                 Client();					//default constructor
+		~Client();					//default destructor
 
                 int ToGetSockfd();				//to get sock id
 

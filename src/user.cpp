@@ -13,14 +13,23 @@
 #include <sstream>
 #include <cstdio>
 #include <user.h>
+
 using namespace std;
+
+
 //default constructor        
 User::User(){};
+
+
+
 //parameterized constructor to load username and password
 User::User::User(string username ,string password){
 	this->username = username;
         this->password = password;
 }
+
+
+
 //parametrized constructor to load the username and password with group information
 User::User(string username ,string password ,vector<string>group){
 	this->username = username;
@@ -29,6 +38,9 @@ User::User(string username ,string password ,vector<string>group){
       	  this->group.push_back(i);
         }
 }
+
+
+
 
 //function to authenticate user return bool
 
@@ -41,6 +53,8 @@ bool  User::ToAuthenticate(User user){
       }
 }
 
+
+
 //function to add data to the phonebook 
 string User::ToAddData(string input1 ,string input2,string filename){
       Phonebook phonebook(input1,input2);
@@ -52,6 +66,8 @@ string User::ToAddData(string input1 ,string input2,string filename){
       }
 
 }
+
+
 //function to add data to the phonebook 
 string User::ToAdminAddData(string input1 ,string input2,string filename){
       ifstream infile;
@@ -67,28 +83,42 @@ string User::ToAdminAddData(string input1 ,string input2,string filename){
 
 }
 
+
+
 //function to remove contact from the phonebook
 string User::ToRemoveContact(string input,string filename){
       Phonebook phonebook ;
       vector <string> afterRemoved ;
       string line = "" ;
       ifstream infile;
+      int count1 = 0 ;
+      int count2 = 0 ;
       infile.open("/home/cguser11/phonebook_management/db/"+filename + ".txt");
       if(infile.is_open()){
       	while(getline(infile,line)){
             	  string name ,phonenumber ;
                   stringstream ss(line);
-                  getline(ss,name,',');
+                  if(getline(ss,name,',')){
+		  	count1++;
+		  }
                   getline(ss,phonenumber,',');
                   if(name!="" && name!=input){											//checking the username to exclude the username and store in a vector
             	      afterRemoved.push_back(name + "," + phonenumber );
+		      count2++ ;
                   }			
               }
          }
          infile.close();
+	 if(count1==count2){
+	 	return filename ;
+	 }
          string yes =phonebook.ToRemoveData(afterRemoved,filename);								//calling the removedata function to remove the data
          return yes ;
 }
+
+
+
+
 //function to list the data with the substring and returns a vector oof string
 vector<string> User::ToListData(string input,string filename){
       ifstream infile ;
@@ -106,7 +136,7 @@ vector<string> User::ToListData(string input,string filename){
                         getline(ss,phonenumber,',');
                         if(name != "" && phonenumber !=""){
                         	if(name.substr(0,input.size()) == input){
-                              	listedContact.push_back("Name :" + name + "\tPhonenumber :" + phonenumber + "\n");
+                              	listedContact.push_back("Name :" + name + "\t\tPhonenumber :" + phonenumber + "\n");
                               }
                         }
             	}
@@ -124,7 +154,7 @@ vector<string> User::ToListData(string input,string filename){
                         getline(ss,phonenumber,',');
                         if(name != "" && phonenumber != ""){
                         	if(name.substr(0,input.size()) == input){
-                        	      	listedContact.push_back("Name :" + name + "\tPhonenumber :" + phonenumber + "\n");
+                        	      	listedContact.push_back("Name :" + name + "\t\tPhonenumber :" + phonenumber + "\n");
                               }
                         }
                   }
@@ -134,10 +164,16 @@ vector<string> User::ToListData(string input,string filename){
      return listedContact;
 }
 
+
+
+
+
 //function to find user return bool
 bool User::ToFindUser(string username){
 	return this->username == username ;
 }
+
+
 
 
 
@@ -152,6 +188,9 @@ string User::ToChgrp(string input){
        return "no";
 
 }
+
+
+
 //function to add group to the directory
 int User::ToAddGrp(string filename){
 	ofstream outfile ;
@@ -162,6 +201,9 @@ int User::ToAddGrp(string filename){
 	outfile.close();
 	return 0;
 }
+
+
+
 //function to remove group from the directory
 int User::ToRemoveGrp(string filename){
 	filename = "/home/cguser11/phonebook_management/db/" + filename +".txt";

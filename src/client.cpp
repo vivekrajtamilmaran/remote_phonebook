@@ -129,7 +129,7 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand;
                         }
                         else{
-                        	cout << "ADD command should have two fields" << endl ;
+                        	cerr << "ADD command should have two fields" << endl ;
                                 continue;
                                                 }
                         }
@@ -138,7 +138,7 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand ;
                         }
                         else{
-                        	cout << "Remove command should have only one field" << endl ;
+                        	cerr << "Remove command should have only one field" << endl ;
                                 continue;
                         }
                    }
@@ -147,7 +147,7 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand ;
                         }
                         else{
-                        	cout << "List command should have only one field" << endl ;
+                        	cerr << "List command should have only one field" << endl ;
                                 continue;
                         }
                    }
@@ -156,7 +156,7 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand ;
                          }
                          else{
-                         	cout << "Enter only Groupname" << endl ;
+                         	cerr << "Enter only Groupname" << endl ;
                                 continue;
                          }
                    }
@@ -165,12 +165,12 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand ;
                          }
                          else{
-                         	cout << "No inputs with bye/Bye" << endl ;
+                         	cerr << "No inputs with bye/Bye" << endl ;
                          	continue;
                          }
                     }
                     else{
-                    	cout << "You can only use ADD,rm,list,chgrp and bye/Bye subcommands" << endl ;
+                    	cerr << "You can only use ADD,rm,list,chgrp and bye/Bye subcommands" << endl ;
                         continue;
                     }
 	      }
@@ -188,7 +188,7 @@ string Client::ToGetUserCommands(string type){
                   	      return copysubcommand ;
                          }
                          else{
-                        	 cout << "Enter groupname only" << endl ;
+                               cerr << "Enter groupname only" << endl ;
                                continue;
                          }
                    }
@@ -197,7 +197,7 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand ;
                         }
                         else{
-                        	cout << "Enter groupname only" << endl ;
+                        	cerr << "Enter groupname only" << endl ;
                                 continue;
                         }
                     }
@@ -206,7 +206,7 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand;
                         }
                         else{
-                        	cout << "Provide three inputs name,phonenumber,filename " << endl ;
+                        	cerr << "Provide three inputs name,phonenumber,filename " << endl ;
                                 continue;
                                                 }
                         }
@@ -216,12 +216,12 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand ;
                          }
                          else{
-                         	cout << "No inputs with bye/Bye" << endl ;
+                         	cerr << "No inputs with bye/Bye" << endl ;
                                 continue;
                           }
                      }
                      else{
-                     	cout << "Incorrect subcommand" << endl ;
+                     	cerr << "Incorrect subcommand" << endl ;
                         continue;
                       }
                 }
@@ -239,7 +239,7 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand ;
                          }
                          else{
-                         	cout << "Enter two fields to ADD" << endl ;
+                              cerr << "Enter two fields to ADD" << endl ;
                               continue;
                          }
                   }
@@ -248,12 +248,12 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand ;
                          }
                          else{
-                         	cout << "No inputs with bye/Bye" << endl ;
+                         	cerr << "No inputs with bye/Bye" << endl ;
                          	continue;
                          }
                    }
                    else{
-                   	cout << "Incorrect subcommand" << endl ;
+                   	cerr << "Incorrect subcommand" << endl ;
                         continue;
                    }
                }
@@ -282,4 +282,8 @@ int Client::ToCloseClientConnections(){
       exit(0);
  }
 
+//destructor
+
+Client::~Client(){
+};
 
