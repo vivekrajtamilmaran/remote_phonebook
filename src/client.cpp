@@ -20,6 +20,9 @@
 //default constructor and creating a socket
       
 Client::Client(){
+	connectfd = 0;
+	mlen = 0 ;
+	portnumber =0 ;
       slen=sizeof(sockaddr_in);
       memset(&servaddr,0,slen);
 
@@ -72,8 +75,8 @@ string Client::ToGetCredentials(){
 int Client::ToServerConnect( ){
 	connectfd=connect(sockfd,(struct sockaddr *)&servaddr,slen);								//connecting to the server
       	if(connectfd < 0){
-            	fputs("Socket can't be created ",stderr);
-                  exit(EXIT_FAILURE);
+            	perror("Socket can't be created ");
+                exit(EXIT_FAILURE);
             }
             return connectfd;
 }
@@ -114,7 +117,8 @@ string Client::ToGetUserCommands(string type){
             getline(cin, subcommand);
             string copysubcommand="";
             copysubcommand=subcommand;
-            if(type=="authenticated user"){											//checks for the authenticated user
+            
+	    if(type=="authenticated user"){											//checks for the authenticated user
             	string command(""),input1(""),input2("");
                   stringstream ss(subcommand);
                   getline(ss,command,' ');
@@ -170,7 +174,9 @@ string Client::ToGetUserCommands(string type){
                         continue;
                     }
 	      }
-            if(type=="admin"){													//checks for the type admin
+            
+
+	    if(type=="admin"){													//checks for the type admin
       	          string command(""),input1(""),input2("") ,input3("");
                   stringstream ss(subcommand);
                   getline(ss,command,' ');
@@ -219,7 +225,10 @@ string Client::ToGetUserCommands(string type){
                         continue;
                       }
                 }
-                if(type=="anonymous user"){											//checks for anonymous user
+               
+
+
+	       if(type=="anonymous user"){											//checks for anonymous user
                   string command(""),input1(""),input2("");
                   stringstream ss(subcommand);
                   getline(ss,command,' ');

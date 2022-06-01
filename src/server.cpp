@@ -5,6 +5,7 @@
 #include <vector>
 
 Server::Server(){
+	sockfd = 0 ;
 };
 
 
@@ -17,10 +18,10 @@ int Server::ToLoadData(){
             string line;
             inputfile.open("/home/cguser11/phonebook_management/db/authentication.txt");
          
-	    
-	    if(inputfile.is_open()){                                                                                    //checking whether the file is opened
-                while(getline(inputfile,line)){
-                        stringstream ss(line);
+	   try{
+	    	if(inputfile.is_open()){                                                                                //checking whether the file is opened
+            	    while(getline(inputfile,line)){
+            	        stringstream ss(line);
                         string username;
                         string password;
                         string group;
@@ -37,12 +38,18 @@ int Server::ToLoadData(){
                         if(username!="" && password != "" ){
                                 users.push_back(User(username,password,groups));                                        //pushing the object into the user vector
                         }
-                  }
+                      }
               inputfile.close();                                                                                        //closing the file
-            }
-            else{
-                cout << "No file existing " << endl ;
-            }
+            	}	
+	    	else{
+	    		throw string("authentication.txt doesn't exist");
+            	}
+
+	    }
+	    catch(string msg){
+	    	cerr << "File : " << msg << endl;
+	    }
+	    	
             return 0;
 
 }
@@ -140,6 +147,8 @@ void Server::ToAcceptConnections(){
         	    	}
        		}
             signal(SIGCHLD,SIG_IGN);                                                                                	//signal to avoid Zombie process
+	    close(connectfd);
+
        	}	
 }
 
@@ -258,7 +267,6 @@ int Server::AdminFunction(string recvdata,string filename){
       string command ,input1 ,input2 ,input3;
       stringstream ss(recvdata) ;
       getline(ss,command ,' ');
-      string msg = "";
       if(command == "addgrp"){
       	ss >> input1;
             filename = input1 ;

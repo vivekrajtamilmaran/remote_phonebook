@@ -1,4 +1,6 @@
 //program to have the header file for server class
+
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -32,7 +34,7 @@ class Server{
 	public:
         	Server();
                 
-		int ToLoadData();	     //load the data from the file
+		int ToLoadData();	    										 //load the data from the file
 
 		int ToCreateSocket();											//create the socket
 		int ToBindSocket();											//to bind the socket	

@@ -43,10 +43,10 @@ $(OBJ)/phonebook.o: $(SRC)/phonebook.cpp
 
 #run server
 server:
-	$(BIN)server
+	$(BIN)/server
 
 client:
-	$(BIN)client
+	$(BIN)/client
 
 clean:
 	rm $(BIN)/server 

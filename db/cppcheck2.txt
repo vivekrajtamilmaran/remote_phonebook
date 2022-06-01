@@ -1,0 +1,20 @@
+src/phonebook.cpp:20:29: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+Phonebook::Phonebook(string name , string phonenumber ){
+                            ^
+src/phonebook.cpp:20:43: performance: Function parameter 'phonenumber' should be passed by const reference. [passedByValue]
+Phonebook::Phonebook(string name , string phonenumber ){
+                                          ^
+src/phonebook.cpp:27:36: performance: Function parameter 'filename' should be passed by const reference. [passedByValue]
+bool Phonebook::ToStoreData(string filename){
+                                   ^
+src/phonebook.cpp:44:67: performance: Function parameter 'filename' should be passed by const reference. [passedByValue]
+string Phonebook::ToRemoveData(vector<string> afterRemoved,string filename){
+                                                                  ^
+src/phonebook.cpp:44:0: style: The function 'ToRemoveData' is never used. [unusedFunction]
+
+^
+src/phonebook.cpp:27:0: style: The function 'ToStoreData' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingIncludeSystem]
+
