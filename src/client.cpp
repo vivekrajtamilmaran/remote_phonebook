@@ -112,7 +112,7 @@ string Client::ToRecvData(){
 //function to get the subcommands from the user
 string Client::ToGetUserCommands(string type){
 	while(1){
-      	string subcommand("");
+      	    string subcommand("");
             cout << "Enter the subcommand :" ;
             getline(cin, subcommand);
             string copysubcommand="";
@@ -221,7 +221,7 @@ string Client::ToGetUserCommands(string type){
                           }
                      }
                      else{
-                     	cerr << "Incorrect subcommand" << endl ;
+                     	cerr << "Enter addgrp , rmgrp or ADD  subcommand only" << endl ;
                         continue;
                       }
                 }
@@ -239,7 +239,7 @@ string Client::ToGetUserCommands(string type){
                         	return copysubcommand ;
                          }
                          else{
-                              cerr << "Enter two fields to ADD" << endl ;
+                              cerr << "User should provide two fields to ADD" << endl ;
                               continue;
                          }
                   }
@@ -253,7 +253,7 @@ string Client::ToGetUserCommands(string type){
                          }
                    }
                    else{
-                   	cerr << "Incorrect subcommand" << endl ;
+                   	cerr << "User should provide only ADD subcommand" << endl ;
                         continue;
                    }
                }

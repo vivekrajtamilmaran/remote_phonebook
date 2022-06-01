@@ -34,8 +34,8 @@ User::User::User(string username ,string password){
 User::User(string username ,string password ,vector<string>group){
 	this->username = username;
         this->password = password;
-        for(auto i: group){
-      	  this->group.push_back(i);
+        for(auto groups: group){
+      	  this->group.push_back(groups);
         }
 }
 
@@ -136,7 +136,7 @@ vector<string> User::ToListData(string input,string filename){
                         getline(ss,phonenumber,',');
                         if(name != "" && phonenumber !=""){
                         	if(name.substr(0,input.size()) == input){
-                              	listedContact.push_back("Name :" + name + "\t\tPhonenumber :" + phonenumber + "\n");
+                              		listedContact.push_back("Name :" + name + "\t\tPhonenumber :" + phonenumber + "\n");
                               }
                         }
             	}

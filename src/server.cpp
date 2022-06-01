@@ -294,7 +294,7 @@ int Server::AdminFunction(string recvdata,string filename){
       	      send(connectfd,positive,strlen(positive),0);
       	}
       	else{
-      		char negative[]="Error while removing the group " ;
+      		char negative[]="No group is present in that name" ;
       	      send(connectfd,negative,strlen(negative),0);
       	}
       }
